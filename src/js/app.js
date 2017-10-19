@@ -1,18 +1,6 @@
-import React, { Component } from 'react';
-import { render } from 'react-dom';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import '../css/index.css';
+import Game from './game';
 
-import '../css/style.css';
-import flamImage from '../assets/Flammarion.jpg';
-
-export default class Hello extends Component {
-  render() {
-    return (
-      <div>
-        Hello from react
-        <img src={ flamImage } alt='The Sun, Moon and Stars' />
-      </div>
-    );
-  }
-}
-
-render(<Hello />, document.getElementById('app'));
+ReactDOM.render(<Game />, document.getElementById('app'));

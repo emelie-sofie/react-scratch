@@ -1,7 +1,77 @@
+html {
+  height: 100%;
+}
+
 body {
-  background: #f9fafb;
-  font-family: Helvetica, Arial, sans-serif;
-  font-size: 16px;
-  margin: 0;
-  padding: 30px;
+  background-color: #f2f0ef;
+  background-image: url('/src/assets/20170925_090328.jpg');
+  background-size: cover;
+  background-position: top;
+  /*background-image: url('/src/assets/20170929_132842.jpg');*/
+  background-position: left;
+  padding: 0;
+  font-family: sans-serif;
+  font-family: 'Lobster', cursive;
+  text-align: center;
+}
+.card {
+  max-width: 250px;
+  width: 17%;
+  height: auto;
+  border: solid 10px;
+  border-color: white;
+  margin: 1%;
+  background-image: url('/src/assets/regal.png');
+}
+
+img {
+  width: 100%;
+  height: 100%;
+}
+
+.card.matched {
+  visibility: hidden;
+}
+
+.card, .not-flipped > img {
+  visibility: hidden;
+}
+
+.card, .flipped > img {
+  visibility: visible;
+}
+.game {
+  margin: 2%;
+}
+
+.card-container {
+  display: flex;
+  flex-flow: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+h1, h2 {
+  color: white;
+}
+
+.game-title {
+  font-size: 40px;
+}
+
+.resetDiv {
+  margin: 15%;
+}
+
+.resetButton {
+  background-color: white;
+  border: none;
+  color: black;
+  padding: 20px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  border-radius: 25px;
+  font-size: x-large;
+  font-family: 'Lobster', cursive;
 }

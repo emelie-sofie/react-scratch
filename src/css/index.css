@@ -1,0 +1,16 @@
+html {
+  height: 100%;
+}
+
+body {
+  background-color: #f2f0ef;
+  background-image: url('/src/assets/20170925_090328.jpg');
+  background-size: cover;
+  background-position: top;
+  /*background-image: url('/src/assets/20170929_132842.jpg');*/
+  background-position: left;
+  padding: 0;
+  font-family: sans-serif;
+  font-family: 'Lobster', cursive;
+  text-align: center;
+}
