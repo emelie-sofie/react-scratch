@@ -24,21 +24,13 @@ class Game extends Component {
 
   constructor(props) {
     super(props)
-    this.setupGame = this.setupGame.bind(this);
-    this.renderCard = this.renderCard.bind(this);
-    this.handleCardFlip = this.handleCardFlip.bind(this);
-    this.checkIfCardsMatch = this.checkIfCardsMatch.bind(this);
-    this.flipAllCardsBackOver = this.flipAllCardsBackOver.bind(this);
-    this.isGameFinished = this.isGameFinished.bind(this);
-    this.resetGame = this.resetGame.bind(this);
-
     this.state = {
       cards: this.setupGame(),
       isGameFinished: false
     }
   }
 
-  setupGame() {
+  setupGame = () => {
     //const duplicatedPhotos = photos.concat(photos)
     const duplicatedPhotos = [...photos, ...photos]
     const shuffledPhotos = shuffle(duplicatedPhotos)
@@ -69,7 +61,7 @@ class Game extends Component {
   }
 
   // Create a new instance of the Card component
-  renderCard(card) {
+  renderCard = (card) => {
     return <Card
       uuid={card.uuid}
       key={card.key}
@@ -81,7 +73,7 @@ class Game extends Component {
   }
 
   // Called from Card passing the card id
-  handleCardFlip(cardId) {
+  handleCardFlip = (cardId) => {
     const changedStateArray = this.state.cards.map(card => {
       if (cardId === card.uuid) {
         card.isFlipped = true
@@ -92,7 +84,7 @@ class Game extends Component {
     this.checkIfCardsMatch)
   }
 
-  checkIfCardsMatch() {
+  checkIfCardsMatch = () => {
     const flippedCards = this.state.cards.filter(card => (
       card.isFlipped
     ))
@@ -101,11 +93,11 @@ class Game extends Component {
         flippedCards[0].isMatched = true
         flippedCards[1].isMatched = true
       }
-      setTimeout(this.flipAllCardsBackOver, 600);
+      setTimeout(this.flipAllCardsBackOver, 600)
     }
   }
 
-  flipAllCardsBackOver() {
+  flipAllCardsBackOver = () => {
     const flippedCards = this.state.cards.map(card => {
       card.isFlipped = false
       return card
@@ -113,14 +105,14 @@ class Game extends Component {
     this.setState({cards: flippedCards, isGameFinished: this.isGameFinished()})
   }
 
-  isGameFinished() {
+  isGameFinished = () => {
     const cardsLeftToMatch = this.state.cards.filter(card => {
       return !card.isMatched
     })
     return cardsLeftToMatch <= 0
   }
 
-  resetGame() {
+  resetGame = () => {
     this.setState({cards: this.setupGame(), isGameFinished: false})
   }
 

@@ -965,8 +965,6 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactDom = __webpack_require__(18);
 
-var _reactDom2 = _interopRequireDefault(_reactDom);
-
 __webpack_require__(32);
 
 var _game = __webpack_require__(33);
@@ -975,7 +973,7 @@ var _game2 = _interopRequireDefault(_game);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-_reactDom2.default.render(_react2.default.createElement(_game2.default, null), document.getElementById('app'));
+(0, _reactDom.render)(_react2.default.createElement(_game2.default, null), document.getElementById('app'));
 
 /***/ }),
 /* 16 */
@@ -21244,24 +21242,7 @@ var Game = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, (Game.__proto__ || Object.getPrototypeOf(Game)).call(this, props));
 
-    _this.setupGame = _this.setupGame.bind(_this);
-    _this.renderCard = _this.renderCard.bind(_this);
-    _this.handleCardFlip = _this.handleCardFlip.bind(_this);
-    _this.checkIfCardsMatch = _this.checkIfCardsMatch.bind(_this);
-    _this.flipAllCardsBackOver = _this.flipAllCardsBackOver.bind(_this);
-    _this.isGameFinished = _this.isGameFinished.bind(_this);
-    _this.resetGame = _this.resetGame.bind(_this);
-
-    _this.state = {
-      cards: _this.setupGame(),
-      isGameFinished: false
-    };
-    return _this;
-  }
-
-  _createClass(Game, [{
-    key: 'setupGame',
-    value: function setupGame() {
+    _this.setupGame = function () {
       //const duplicatedPhotos = photos.concat(photos)
       var duplicatedPhotos = [].concat(photos, photos);
       var shuffledPhotos = (0, _shuffleArray2.default)(duplicatedPhotos);
@@ -21276,8 +21257,69 @@ var Game = function (_Component) {
           isMatched: false
         };
       });
-    }
-  }, {
+    };
+
+    _this.renderCard = function (card) {
+      return _react2.default.createElement(_card2.default, {
+        uuid: card.uuid,
+        key: card.key,
+        src: card.src,
+        isFlipped: card.isFlipped,
+        isMatched: card.isMatched,
+        whenFlipped: _this.handleCardFlip
+      });
+    };
+
+    _this.handleCardFlip = function (cardId) {
+      var changedStateArray = _this.state.cards.map(function (card) {
+        if (cardId === card.uuid) {
+          card.isFlipped = true;
+        }
+        return card;
+      });
+      _this.setState({ cards: changedStateArray, isGameFinished: _this.isGameFinished() }, _this.checkIfCardsMatch);
+    };
+
+    _this.checkIfCardsMatch = function () {
+      var flippedCards = _this.state.cards.filter(function (card) {
+        return card.isFlipped;
+      });
+      if (flippedCards.length === 2) {
+        if (flippedCards[0].src === flippedCards[1].src) {
+          flippedCards[0].isMatched = true;
+          flippedCards[1].isMatched = true;
+        }
+        setTimeout(_this.flipAllCardsBackOver, 600);
+      }
+    };
+
+    _this.flipAllCardsBackOver = function () {
+      var flippedCards = _this.state.cards.map(function (card) {
+        card.isFlipped = false;
+        return card;
+      });
+      _this.setState({ cards: flippedCards, isGameFinished: _this.isGameFinished() });
+    };
+
+    _this.isGameFinished = function () {
+      var cardsLeftToMatch = _this.state.cards.filter(function (card) {
+        return !card.isMatched;
+      });
+      return cardsLeftToMatch <= 0;
+    };
+
+    _this.resetGame = function () {
+      _this.setState({ cards: _this.setupGame(), isGameFinished: false });
+    };
+
+    _this.state = {
+      cards: _this.setupGame(),
+      isGameFinished: false
+    };
+    return _this;
+  }
+
+  _createClass(Game, [{
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
@@ -21298,68 +21340,9 @@ var Game = function (_Component) {
 
     // Create a new instance of the Card component
 
-  }, {
-    key: 'renderCard',
-    value: function renderCard(card) {
-      return _react2.default.createElement(_card2.default, {
-        uuid: card.uuid,
-        key: card.key,
-        src: card.src,
-        isFlipped: card.isFlipped,
-        isMatched: card.isMatched,
-        whenFlipped: this.handleCardFlip
-      });
-    }
 
     // Called from Card passing the card id
 
-  }, {
-    key: 'handleCardFlip',
-    value: function handleCardFlip(cardId) {
-      var changedStateArray = this.state.cards.map(function (card) {
-        if (cardId === card.uuid) {
-          card.isFlipped = true;
-        }
-        return card;
-      });
-      this.setState({ cards: changedStateArray, isGameFinished: this.isGameFinished() }, this.checkIfCardsMatch);
-    }
-  }, {
-    key: 'checkIfCardsMatch',
-    value: function checkIfCardsMatch() {
-      var flippedCards = this.state.cards.filter(function (card) {
-        return card.isFlipped;
-      });
-      if (flippedCards.length === 2) {
-        if (flippedCards[0].src === flippedCards[1].src) {
-          flippedCards[0].isMatched = true;
-          flippedCards[1].isMatched = true;
-        }
-        setTimeout(this.flipAllCardsBackOver, 600);
-      }
-    }
-  }, {
-    key: 'flipAllCardsBackOver',
-    value: function flipAllCardsBackOver() {
-      var flippedCards = this.state.cards.map(function (card) {
-        card.isFlipped = false;
-        return card;
-      });
-      this.setState({ cards: flippedCards, isGameFinished: this.isGameFinished() });
-    }
-  }, {
-    key: 'isGameFinished',
-    value: function isGameFinished() {
-      var cardsLeftToMatch = this.state.cards.filter(function (card) {
-        return !card.isMatched;
-      });
-      return cardsLeftToMatch <= 0;
-    }
-  }, {
-    key: 'resetGame',
-    value: function resetGame() {
-      this.setState({ cards: this.setupGame(), isGameFinished: false });
-    }
   }]);
 
   return Game;
@@ -21400,20 +21383,35 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var Card = function (_React$Component) {
   _inherits(Card, _React$Component);
 
-  function Card(props) {
+  function Card() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
     _classCallCheck(this, Card);
 
-    var _this = _possibleConstructorReturn(this, (Card.__proto__ || Object.getPrototypeOf(Card)).call(this, props));
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
 
-    _this.handleClick = _this.handleClick.bind(_this);
-    _this.setClassName = _this.setClassName.bind(_this);
-    return _this;
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Card.__proto__ || Object.getPrototypeOf(Card)).call.apply(_ref, [this].concat(args))), _this), _this.handleClick = function () {
+      _this.props.whenFlipped(_this.props.uuid);
+    }, _this.setClassName = function () {
+      if (_this.props.isFlipped) {
+        return "card flipped";
+      } else if (_this.props.isMatched) {
+        return "card matched";
+      } else {
+        return "card not-flipped";
+      }
+    }, _temp), _possibleConstructorReturn(_this, _ret);
   }
-  // Invoked when mounting the component
-
 
   _createClass(Card, [{
     key: 'render',
+
+
+    // Invoked when mounting the component
     value: function render() {
       /* Render function needs to return JSX
       We render this card in Game.js by using <Card />
@@ -21427,22 +21425,6 @@ var Card = function (_React$Component) {
     }
     // fat arrows keeps the scope of 'this' (es6)
 
-  }, {
-    key: 'handleClick',
-    value: function handleClick() {
-      this.props.whenFlipped(this.props.uuid);
-    }
-  }, {
-    key: 'setClassName',
-    value: function setClassName() {
-      if (this.props.isFlipped) {
-        return "card flipped";
-      } else if (this.props.isMatched) {
-        return "card matched";
-      } else {
-        return "card not-flipped";
-      }
-    }
   }]);
 
   return Card;
@@ -21704,13 +21686,20 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var GameOver = function (_Component) {
   _inherits(GameOver, _Component);
 
-  function GameOver(props) {
+  function GameOver() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
     _classCallCheck(this, GameOver);
 
-    var _this = _possibleConstructorReturn(this, (GameOver.__proto__ || Object.getPrototypeOf(GameOver)).call(this, props));
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
 
-    _this.handleClick = _this.handleClick.bind(_this);
-    return _this;
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = GameOver.__proto__ || Object.getPrototypeOf(GameOver)).call.apply(_ref, [this].concat(args))), _this), _this.handleClick = function () {
+      _this.props.resetGame();
+    }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
   _createClass(GameOver, [{
@@ -21722,7 +21711,7 @@ var GameOver = function (_Component) {
         _react2.default.createElement(
           "h2",
           null,
-          "Yaaay, you finished the game!"
+          "Yaaay, you finished the game!!"
         ),
         _react2.default.createElement(
           "button",
@@ -21732,11 +21721,6 @@ var GameOver = function (_Component) {
           "Play again"
         )
       );
-    }
-  }, {
-    key: "handleClick",
-    value: function handleClick() {
-      this.props.resetGame();
     }
   }]);
 

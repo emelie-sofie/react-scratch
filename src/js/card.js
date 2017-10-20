@@ -1,14 +1,9 @@
-import React from 'react'
+import React, { Component } from 'react'
 import '../css/card.css' // Just normal css, react injects it into the <head> component
 
 // Defining a card component which inherits functions from React.Component
-class Card extends React.Component {
+class Card extends Component {
 
-  constructor(props) {
-    super(props)
-    this.handleClick = this.handleClick.bind(this);
-    this.setClassName = this.setClassName.bind(this);
-  }
   // Invoked when mounting the component
   render() {
     /* Render function needs to return JSX
@@ -22,11 +17,11 @@ class Card extends React.Component {
     )
   }
   // fat arrows keeps the scope of 'this' (es6)
-  handleClick() {
+  handleClick = () => {
     this.props.whenFlipped(this.props.uuid)
   }
 
-  setClassName() {
+  setClassName = () => {
     if (this.props.isFlipped) {
       return "card flipped"
     } else if (this.props.isMatched) {
