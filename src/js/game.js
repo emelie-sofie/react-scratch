@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import Card from './card';
-import shuffle from 'shuffle-array';
-import uuidv4 from 'uuid/v4';
-import GameOver from './game-over';
-import '../css/game.css';
+import React, { Component } from 'react'
+import Card from './card'
+import shuffle from 'shuffle-array'
+import uuidv4 from 'uuid/v4'
+import GameOver from './game-over'
+import '../css/game.css'
 
 const photos = [
   // "src/assets/kitten-1.jpg",
@@ -17,22 +17,22 @@ const photos = [
   'src/assets/kitten-9.jpg',
   'src/assets/kitten-10.jpg',
   'src/assets/kitten-11.jpg',
-  'src/assets/kitten-12.jpg',
-];
+  'src/assets/kitten-12.jpg'
+]
 
 class Game extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       cards: this.setupGame(),
-      isGameFinished: false,
-    };
+      isGameFinished: false
+    }
   }
 
   setupGame = () => {
     //const duplicatedPhotos = photos.concat(photos)
-    const duplicatedPhotos = [...photos, ...photos];
-    const shuffledPhotos = shuffle(duplicatedPhotos);
+    const duplicatedPhotos = [...photos, ...photos]
+    const shuffledPhotos = shuffle(duplicatedPhotos)
 
     // These objects in the array ends up on the state
     return shuffledPhotos.map(url => ({
@@ -40,9 +40,9 @@ class Game extends Component {
       key: uuidv4(),
       src: url,
       isFlipped: false,
-      isMatched: false,
-    }));
-  };
+      isMatched: false
+    }))
+  }
 
   render() {
     return (
@@ -55,7 +55,7 @@ class Game extends Component {
           <div className="card-container">{this.state.cards.map(this.renderCard)}</div>
         )}
       </div>
-    );
+    )
   }
 
   // Create a new instance of the Card component
@@ -69,52 +69,52 @@ class Game extends Component {
         isMatched={card.isMatched}
         whenFlipped={this.handleCardFlip}
       />
-    );
-  };
+    )
+  }
 
   // Called from Card passing the card id
   handleCardFlip = cardId => {
     const changedStateArray = this.state.cards.map(card => {
       if (cardId === card.uuid) {
-        card.isFlipped = true;
+        card.isFlipped = true
       }
-      return card;
-    });
+      return card
+    })
     this.setState(
       { cards: changedStateArray, isGameFinished: this.isGameFinished() },
       this.checkIfCardsMatch
-    );
-  };
+    )
+  }
 
   checkIfCardsMatch = () => {
-    const flippedCards = this.state.cards.filter(card => card.isFlipped);
+    const flippedCards = this.state.cards.filter(card => card.isFlipped)
     if (flippedCards.length === 2) {
       if (flippedCards[0].src === flippedCards[1].src) {
-        flippedCards[0].isMatched = true;
-        flippedCards[1].isMatched = true;
+        flippedCards[0].isMatched = true
+        flippedCards[1].isMatched = true
       }
-      setTimeout(this.flipAllCardsBackOver, 600);
+      setTimeout(this.flipAllCardsBackOver, 600)
     }
-  };
+  }
 
   flipAllCardsBackOver = () => {
     const flippedCards = this.state.cards.map(card => {
-      card.isFlipped = false;
-      return card;
-    });
-    this.setState({ cards: flippedCards, isGameFinished: this.isGameFinished() });
-  };
+      card.isFlipped = false
+      return card
+    })
+    this.setState({ cards: flippedCards, isGameFinished: this.isGameFinished() })
+  }
 
   isGameFinished = () => {
     const cardsLeftToMatch = this.state.cards.filter(card => {
-      return !card.isMatched;
-    });
-    return cardsLeftToMatch <= 0;
-  };
+      return !card.isMatched
+    })
+    return cardsLeftToMatch <= 0
+  }
 
   resetGame = () => {
-    this.setState({ cards: this.setupGame(), isGameFinished: false });
-  };
+    this.setState({ cards: this.setupGame(), isGameFinished: false })
+  }
 }
 
-export default Game;
+export default Game

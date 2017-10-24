@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
 class GameOver extends Component {
   render() {
@@ -9,12 +9,12 @@ class GameOver extends Component {
           Play again
         </button>
       </div>
-    );
+    )
   }
 
   handleClick = () => {
-    this.props.resetGame();
-  };
+    this.props.resetGame()
+  }
 }
 
-export default GameOver;
+export default GameOver
