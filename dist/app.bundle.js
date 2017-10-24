@@ -21380,8 +21380,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 // Just normal css, react injects it into the <head> component
 
 // Defining a card component which inherits functions from React.Component
-var Card = function (_React$Component) {
-  _inherits(Card, _React$Component);
+var Card = function (_Component) {
+  _inherits(Card, _Component);
 
   function Card() {
     var _ref;
@@ -21428,7 +21428,7 @@ var Card = function (_React$Component) {
   }]);
 
   return Card;
-}(_react2.default.Component);
+}(_react.Component);
 
 exports.default = Card;
 
